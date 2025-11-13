@@ -37,4 +37,9 @@ public class Product {
     public void setPrice(double price) {
         this.price = price;
     } // Set the Product Price
+
+    @Override
+    public String toString() {
+        return "Product Name: " + getName();
+    }
 }
