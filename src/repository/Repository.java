@@ -1,9 +1,10 @@
 package repository;
 
-import java.util.Scanner;
 import model.Product;
 import repository.impl.RepositoryImpl;
+
 import java.util.Map;
+import java.util.Scanner;
 import java.util.TreeMap;
 
 public class Repository implements RepositoryImpl {
@@ -23,32 +24,32 @@ public class Repository implements RepositoryImpl {
 
     @Override
     public void addProduct(Product product) {
-        if (storage.isEmpty()) {
-            product.setId(nextId++);
 
-            System.out.print("Enter Product Name: ");
-            String enteredName = scan.nextLine();
+        this.product.setId(nextId++);
+        System.out.printf("Product ID: %d\n", product.getId());
 
-            product.setName(enteredName);
+        System.out.print("Enter Product Name: ");
+        String enteredName = scan.nextLine();
 
-            System.out.print("Enter Product Quantity: ");
-            int enteredQuantity = scan.nextInt();
+        product.setName(enteredName);
 
-            product.setQuantity(enteredQuantity);
+        System.out.print("Enter Product Quantity: ");
+        int enteredQuantity = scan.nextInt();
 
-            System.out.print("Enter Product Price: ");
-            double enteredPrice = scan.nextDouble();
+        product.setQuantity(enteredQuantity);
 
-            product.setPrice(enteredPrice);
+        System.out.print("Enter Product Price: ");
+        double enteredPrice = scan.nextDouble();
 
-        }
+        product.setPrice(enteredPrice);
+
+
     }
 
     @Override
     public void showAllProduct() {
 
     }
-
 
 
 }
