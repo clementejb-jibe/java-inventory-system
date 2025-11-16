@@ -4,23 +4,13 @@ import model.Product;
 import repository.impl.RepositoryImpl;
 
 import java.sql.*;
-import java.util.Map;
 import java.util.Scanner;
-import java.util.TreeMap;
 
 public class Repository implements RepositoryImpl {
 
-    private final Map<Long, Product> storage = new TreeMap<>();
+    private final Scanner scan;
 
-    private Scanner scan;
-
-    private Product product;
-
-    private Long nextId = 1L;
-
-
-    public Repository(Product product, Scanner scan) {
-        this.product = product;
+    public Repository(Scanner scan) {
         this.scan = scan;
     }
 
@@ -81,6 +71,74 @@ public class Repository implements RepositoryImpl {
         return stringBuilder.toString();
     }
 
+    public void removeProduct(int id) {
+        String query = "DELETE FROM products WHERE id = ?";
+        try (Connection connection = getConnection();
+            PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setInt(1, id);
+
+            // update the database
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String getProductId(int id) {
+        String query = "SELECT id, product_name, quantity, price FROM products WHERE id =?";
+        StringBuilder stringBuilder = new StringBuilder("------PRODUCT-------\n");
+
+        try(Connection connection = getConnection();
+            PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setInt(1, id);
+
+            ResultSet result = statement.executeQuery();
+
+
+            while (result.next()) {
+                int productId = result.getInt("id");
+                String productName = result.getString("product_name");
+                int quantity = result.getInt("quantity");
+                double price = result.getDouble("price");
+
+                stringBuilder.append("ID: ").append(productId)
+                        .append(" | PRODUCT NAME: ").append(productName)
+                        .append(" | QUANTITY: ").append(quantity)
+                        .append(" | PRICE: ").append(price)
+                        .append("\n");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return stringBuilder.toString();
+    }
+
+    public void searchProductId() {
+        System.out.print("Enter Product ID: ");
+        int searchedId = scan.nextInt();
+        scan.nextLine();
+
+        System.out.println(getProductId(searchedId));
+
+    }
+
+    @Override
+    public void deleteProduct() {
+        System.out.print("Enter Product ID: ");
+        int enteredId = scan.nextInt();
+        scan.nextLine();
+
+
+        removeProduct(enteredId);
+    }
+
+
+
     @Override
     public void addProduct(Product product) {
 
@@ -112,10 +170,6 @@ public class Repository implements RepositoryImpl {
         System.out.println(getAllProducts());
     }
 
-
-    public void databaseConnection() {
-
-    }
 
 
 }

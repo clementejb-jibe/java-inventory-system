@@ -1,16 +1,16 @@
 package model;
 
 public class Product {
-    private Long id;
+    private int id;
     private String name;
     private int quantity;
     private double price;
 
-    public Long getId() {
+    public int getId() {
         return id;
     } // Get the Product ID
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     } // Set the Product ID
 
@@ -38,8 +38,4 @@ public class Product {
         this.price = price;
     } // Set the Product Price
 
-    @Override
-    public String toString() {
-        return "Product Name: " + getName();
-    }
 }
