@@ -1,5 +1,6 @@
 import model.Product;
 import repository.Repository;
+import service.InventoryService;
 
 import java.util.Scanner;
 
@@ -9,6 +10,14 @@ public class Main {
         //For Debugging Only
 
         Scanner scan =new Scanner(System.in);
+        Product product = new Product();
+        Repository db = new Repository(scan);
+        InventoryService service = new InventoryService(db);
+
+        service.showAllProducts();
+
+
+        /*
         Product product = new Product();
         Repository db = new Repository(scan);
 
@@ -21,5 +30,6 @@ public class Main {
         db.deleteProduct(); // Remove Product from Inventory Database
 
         db.showAllProduct(); // Show all current products in Database
+        */
     }
 }

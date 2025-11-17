@@ -15,6 +15,7 @@ public class Repository implements RepositoryImpl {
     }
 
 
+    // SQL Method
     private Connection getConnection() throws SQLException {
         String url = "jdbc:mysql://localhost:3306/inventory";
         String username = "root";
@@ -127,6 +128,9 @@ public class Repository implements RepositoryImpl {
 
     }
 
+
+
+    // Main Methods for Repository
     @Override
     public void deleteProduct() {
         System.out.print("Enter Product ID: ");
@@ -136,8 +140,6 @@ public class Repository implements RepositoryImpl {
 
         removeProduct(enteredId);
     }
-
-
 
     @Override
     public void addProduct(Product product) {
