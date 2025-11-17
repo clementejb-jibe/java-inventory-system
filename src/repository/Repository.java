@@ -4,14 +4,14 @@ import model.Product;
 import repository.impl.RepositoryImpl;
 
 import java.sql.*;
-import java.util.Scanner;
 
 public class Repository implements RepositoryImpl {
 
-    private final Scanner scan;
 
-    public Repository(Scanner scan) {
-        this.scan = scan;
+    private final Product product;
+
+    public Repository(Product product) {
+        this.product = product;
     }
 
 
@@ -35,7 +35,7 @@ public class Repository implements RepositoryImpl {
             statement.setDouble(2, product.getPrice());
             statement.setInt(3, product.getQuantity());
 
-            int rowsInserted = statement.executeUpdate();
+            statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -119,57 +119,36 @@ public class Repository implements RepositoryImpl {
         return stringBuilder.toString();
     }
 
-    public void searchProductId() {
-        System.out.print("Enter Product ID: ");
-        int searchedId = scan.nextInt();
-        scan.nextLine();
-
-        System.out.println(getProductId(searchedId));
-
-    }
-
-
-
     // Main Methods for Repository
     @Override
-    public void deleteProduct() {
-        System.out.print("Enter Product ID: ");
-        int enteredId = scan.nextInt();
-        scan.nextLine();
-
-
-        removeProduct(enteredId);
+    public String searchProductId(int id) {
+        return getProductId(id);
     }
 
     @Override
-    public void addProduct(Product product) {
+    public void deleteProduct(int id) {
+        removeProduct(id);
+    }
 
-        /*this.product.setId(nextId++);
-        System.out.printf("Product ID: %d\n", product.getId());*/
+    @Override
+    public void addProduct(String name, int quantity, double price) {
+
         // Statement 1
-        System.out.print("Enter Product Name: ");
-        String enteredName = scan.nextLine();
-        product.setName(enteredName);
+        product.setName(name);
 
         // Statement 2
-        System.out.print("Enter Product Quantity: ");
-        int enteredQuantity = scan.nextInt();
-        scan.nextLine();
-        product.setQuantity(enteredQuantity);
+        product.setQuantity(quantity);
 
         // Statement 3
-        System.out.print("Enter Product Price: ");
-        double enteredPrice = scan.nextDouble();
-        scan.nextLine();
-        product.setPrice(enteredPrice);
+        product.setPrice(price);
 
         saveProductToDatabase(product);
 
     }
 
     @Override
-    public void showAllProduct() {
-        System.out.println(getAllProducts());
+    public String showAllProduct() {
+        return getAllProducts();
     }
 
 

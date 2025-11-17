@@ -1,11 +1,10 @@
 package repository.impl;
 
-import model.Product;
 
-import java.util.Map;
 
 public interface RepositoryImpl {
-    void addProduct(Product product);
-    void deleteProduct();
-    void showAllProduct();
+    void addProduct(String name, int quantity, double price);
+    void deleteProduct(int id);
+    String showAllProduct();
+    String searchProductId(int id);
 }

@@ -4,9 +4,9 @@ import model.Product;
 
 public interface InventoryServiceImpl {
 
-    void showAllProducts();
-    void addProduct(Product product);
+    String showAllProducts();
+    void addProduct(String productName, int quantity, double price);
     void removeProduct(int id);
-    void searchProductById();
+    String searchProductById(int id);
 
 }

@@ -1,34 +1,34 @@
 package service;
 
-import model.Product;
+
 import repository.Repository;
 import service.impl.InventoryServiceImpl;
 
 public class InventoryService implements InventoryServiceImpl {
 
-    private Repository repo;
+    private final Repository repo;
 
     public InventoryService (Repository repo) {
         this.repo = repo;
     }
 
     @Override
-    public void showAllProducts() {
-        repo.showAllProduct();
+    public String showAllProducts() {
+        return repo.showAllProduct();
     }
 
     @Override
-    public void searchProductById() {
-        repo.searchProductId();
+    public String searchProductById(int id) {
+        return repo.searchProductId(id);
     }
 
-    public void addProduct(Product product) {
-        repo.addProduct(product);
+    public void addProduct(String productName, int quantity, double price) {
+        repo.addProduct(productName, quantity, price);
     }
 
     @Override
     public void removeProduct(int id) {
-        repo.deleteProduct();
+        repo.deleteProduct(id);
     }
 
 }
