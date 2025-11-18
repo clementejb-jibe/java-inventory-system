@@ -37,15 +37,43 @@ public class ProductController {
 
     // Fetch All Products from Database
     public void showAllProduct() {
-        System.out.println(service.showAllProducts());
+        while (true) {
+            System.out.println(service.showAllProducts());
+
+            System.out.println("1. Back");
+            System.out.print("Select: ");
+            int select = scan.nextInt();
+
+            if (select == 1) {
+                break;
+            }
+        }
     }
 
     // Search Product through ID
     public void searchProductId() {
-        System.out.print("Enter Product ID: ");
-        int enteredId = scan.nextInt();
 
-        System.out.println(service.searchProductById(enteredId));
+        while (true) {
+            System.out.print("Enter Product ID: ");
+            int enteredId = scan.nextInt();
+
+            System.out.println(service.searchProductById(enteredId));
+
+            System.out.print("""
+                    1. Search Another Product
+                    2. Back
+                    3. Exit
+                        Select:""");
+            int select = scan.nextInt();
+
+            if (select == 1) {
+                searchProductId();
+            } else if (select == 2) {
+                break;
+            } else {
+                System.exit(0);
+            }
+        }
     }
 
     // Delete Product by ID
