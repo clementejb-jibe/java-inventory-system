@@ -46,6 +46,8 @@ public class ProductController {
 
             if (select == 1) {
                 break;
+            } else {
+                System.out.println("Invalid Option.");
             }
         }
     }
@@ -70,8 +72,10 @@ public class ProductController {
                 searchProductId();
             } else if (select == 2) {
                 break;
-            } else {
+            } else if(select == 3) {
                 System.exit(0);
+            } else {
+                System.out.println("Invalid Option");
             }
         }
     }

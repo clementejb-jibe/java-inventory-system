@@ -1,11 +1,13 @@
 package ui;
 
 import controller.ProductController;
+import ui.impl.UserInterfaceImpl;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 
-public class UserInterface {
+public class UserInterface implements UserInterfaceImpl {
 
     private final Scanner scan;
 
@@ -15,9 +17,6 @@ public class UserInterface {
         this.controller = controller;
         this.scan = scan;
     }
-
-
-    // UI Methods
 
     private void mainMenu() {
         System.out.print("""
@@ -30,22 +29,30 @@ public class UserInterface {
                     SELECT:""");
     }
 
+    // UI Method
     public void interfaceStart() {
-        boolean isInterfaceRunning = true;
 
-        while (isInterfaceRunning) {
+        while (true) {
             mainMenu();
-            int selection = scan.nextInt();
-            scan.nextLine();
+            try {
+                int selection = scan.nextInt();
+                scan.nextLine();
 
-            switch (selection) {
-                case 1 -> controller.addProduct();
-                case 2 -> controller.searchProductId();
-                case 3 -> controller.removeProductId();
-                case 4 -> controller.showAllProduct();
-                case 5 -> isInterfaceRunning = false;
+                switch (selection) {
+                    case 1 -> controller.addProduct();
+                    case 2 -> controller.searchProductId();
+                    case 3 -> controller.removeProductId();
+                    case 4 -> controller.showAllProduct();
+                    case 5 -> System.exit(0);
+                    default -> System.out.println("Invalid Option.");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please try again.");
+                scan.next();
             }
         }
+
+
     }
 }
 

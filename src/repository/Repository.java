@@ -44,7 +44,7 @@ public class Repository implements RepositoryImpl {
     public String getAllProducts() {
 
         String query = "SELECT * FROM products";
-        StringBuilder stringBuilder = new StringBuilder("------PRODUCT-------\n");
+        StringBuilder stringBuilder = new StringBuilder("--------- PRODUCT ----------\n");
 
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
