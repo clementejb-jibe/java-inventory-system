@@ -9,13 +9,16 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
 
-        //For Debugging Only
-
         Scanner scan =new Scanner(System.in);
+
         Product product = new Product();
+
         Repository db = new Repository(product);
+
         InventoryService service = new InventoryService(db);
+
         ProductController controller = new ProductController(service, scan);
+
         UserInterface userInterface = new UserInterface(controller, scan);
 
         userInterface.interfaceStart();

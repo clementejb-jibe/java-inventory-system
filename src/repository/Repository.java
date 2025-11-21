@@ -44,8 +44,8 @@ public class Repository implements RepositoryImpl {
     public String getAllProducts() {
 
         String query = "SELECT * FROM products";
-        StringBuilder stringBuilder = new StringBuilder("--------- PRODUCT ----------\n");
-
+        StringBuilder stringBuilder = new StringBuilder();
+        boolean isEmpty = false;
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
 
@@ -53,10 +53,13 @@ public class Repository implements RepositoryImpl {
 
 
             while (result.next()) {
+                isEmpty = true;
                 int id = result.getInt("id");
                 String productName = result.getString("product_name");
                 int quantity = result.getInt("quantity");
                 double price = result.getDouble("price");
+
+                stringBuilder.append("--------- PRODUCT ----------\n");
 
                 stringBuilder.append("ID: ").append(id)
                         .append(" | PRODUCT NAME: ").append(productName)
@@ -67,6 +70,10 @@ public class Repository implements RepositoryImpl {
 
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+
+        if(!isEmpty) {
+            System.out.println("No product existing, database is empty.");
         }
 
         return stringBuilder.toString();
@@ -89,7 +96,8 @@ public class Repository implements RepositoryImpl {
 
     public String getProductId(int id) {
         String query = "SELECT id, product_name, quantity, price FROM products WHERE id =?";
-        StringBuilder stringBuilder = new StringBuilder("------PRODUCT-------\n");
+        StringBuilder stringBuilder = new StringBuilder();
+        boolean isFound = false;
 
         try(Connection connection = getConnection();
             PreparedStatement statement = connection.prepareStatement(query)) {
@@ -100,10 +108,13 @@ public class Repository implements RepositoryImpl {
 
 
             while (result.next()) {
+                isFound = true;
                 int productId = result.getInt("id");
                 String productName = result.getString("product_name");
                 int quantity = result.getInt("quantity");
                 double price = result.getDouble("price");
+
+                stringBuilder.append("------PRODUCT-------\n");
 
                 stringBuilder.append("ID: ").append(productId)
                         .append(" | PRODUCT NAME: ").append(productName)
@@ -114,6 +125,10 @@ public class Repository implements RepositoryImpl {
 
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+
+        if(!isFound) {
+            System.out.printf("Product ID: %d, do not exist in database\n", id);
         }
 
         return stringBuilder.toString();
