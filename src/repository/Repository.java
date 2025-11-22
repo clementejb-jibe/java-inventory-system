@@ -16,6 +16,8 @@ public class Repository implements RepositoryImpl {
 
 
     // SQL Method
+
+    // A Method to get the connect the Java to SQL.
     private Connection getConnection() throws SQLException {
         String url = "jdbc:mysql://localhost:3306/inventory";
         String username = "root";
@@ -24,23 +26,26 @@ public class Repository implements RepositoryImpl {
         return DriverManager.getConnection(url, username, password);
     }
 
+    // This method is a function for getting all existing products from the database.
     public void saveProductToDatabase(Product product) {
 
+        // A Query to insert the data inputted by users.
         String query = "INSERT INTO products (product_name, price, quantity) VALUES (?, ?, ?)";
 
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
 
-            statement.setString(1, product.getName());
-            statement.setDouble(2, product.getPrice());
-            statement.setInt(3, product.getQuantity());
+            statement.setString(1, product.getName()); // Assign for product_name to insert data
+            statement.setDouble(2, product.getPrice()); // Assign for price to insert data
+            statement.setInt(3, product.getQuantity()); // Assign for quantity to insert data
 
-            statement.executeUpdate();
+            statement.executeUpdate(); // Updates the database after inserting data
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
+    // This function is to show all existing items in database
     public String getAllProducts() {
 
         String query = "SELECT * FROM products";
@@ -51,15 +56,13 @@ public class Repository implements RepositoryImpl {
 
             ResultSet result = statement.executeQuery();
 
-
+            stringBuilder.append("--------- PRODUCT ----------\n");
             while (result.next()) {
                 isEmpty = true;
                 int id = result.getInt("id");
                 String productName = result.getString("product_name");
                 int quantity = result.getInt("quantity");
                 double price = result.getDouble("price");
-
-                stringBuilder.append("--------- PRODUCT ----------\n");
 
                 stringBuilder.append("ID: ").append(id)
                         .append(" | PRODUCT NAME: ").append(productName)
@@ -73,7 +76,7 @@ public class Repository implements RepositoryImpl {
         }
 
         if(!isEmpty) {
-            System.out.println("No product existing, database is empty.");
+            System.out.println("\nNo product existing, database is empty.");
         }
 
         return stringBuilder.toString();
@@ -106,7 +109,7 @@ public class Repository implements RepositoryImpl {
 
             ResultSet result = statement.executeQuery();
 
-
+            stringBuilder.append("\n------PRODUCT-------\n");
             while (result.next()) {
                 isFound = true;
                 int productId = result.getInt("id");
@@ -114,7 +117,7 @@ public class Repository implements RepositoryImpl {
                 int quantity = result.getInt("quantity");
                 double price = result.getDouble("price");
 
-                stringBuilder.append("------PRODUCT-------\n");
+
 
                 stringBuilder.append("ID: ").append(productId)
                         .append(" | PRODUCT NAME: ").append(productName)
@@ -127,10 +130,12 @@ public class Repository implements RepositoryImpl {
             e.printStackTrace();
         }
 
+        StringBuilder validationText_Id = new StringBuilder(); // Texts for Validation if ID dont exists.
+        // Checks if id existing
         if(!isFound) {
-            System.out.printf("Product ID: %d, do not exist in database\n", id);
+            validationText_Id.append("Product ID: ").append(id).append(" do not exist in database\n");
+            return validationText_Id.toString();
         }
-
         return stringBuilder.toString();
     }
 
