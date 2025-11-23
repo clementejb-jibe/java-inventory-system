@@ -35,6 +35,8 @@ public class ProductController {
 
             service.addProduct(productName, productQuantity, productPrice);
             System.out.println("\nAdded to the database.");
+
+
         } catch (InputMismatchException e) {
             System.out.println("Invalid input. Please try again.");
             scan.next();
@@ -65,7 +67,7 @@ public class ProductController {
 
     // Search Product through ID
     public void searchProductId() {
-
+        boolean isRunning = true;
         List<String> menuOptions = List.of(
                 "1. Search Another Product",
                 "2. Back",
@@ -73,25 +75,28 @@ public class ProductController {
         );
 
 
-        while (true) {
+        while (isRunning) {
             System.out.print("\nEnter Product ID: ");
 
             try {
                 int enteredId = scan.nextInt();
                 System.out.println(service.searchProductById(enteredId));
 
-                menuOptions.forEach(System.out::println);
-                System.out.print("SELECT an option: ");
+                StringBuilder sb = new StringBuilder();
+                for (String option : menuOptions) {
+                    sb.append(option).append("\n");
+                }
+                sb.append("SELECT an option: ");
+                System.out.println(sb);
                 int select = scan.nextInt();
 
-                if (select == 1) {
-                    searchProductId();
-                } else if (select == 2) {
-                    break;
-                } else if (select == 3) {
-                    System.exit(0);
-                } else {
-                    System.out.printf("\nOption '%d' is not on the option.\n", enteredId);
+                switch (select) {
+                    case 1 -> {
+                        // Continue the loop for another search ID.
+                    }
+                    case 2 -> isRunning = false;
+                    case 3 -> System.exit(0);
+                    default -> System.out.printf("\nOption '%d' is not on the option.\n", select);
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Invalid input. Please try again.");
